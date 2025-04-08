@@ -24,6 +24,8 @@ void swap_vector_cols(std::vector<std::vector<T>>& matrix, size_t c1, size_t c2)
     }
 }
 
+
+// main code starts here.
 int main(int argc, char* argv[]) {
     std::ifstream inFile("input.txt");
     if (!inFile) {
