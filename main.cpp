@@ -9,6 +9,7 @@ void process_matrix(std::ifstream& inFile) {
     std::size_t N;
     inFile >> N;
 
+    // create the matrix to hold the input
     std::vector<std::vector<T>> mat1(N, std::vector<T>(N));
     std::vector<std::vector<T>> mat2(N, std::vector<T>(N));
 
@@ -22,45 +23,115 @@ void process_matrix(std::ifstream& inFile) {
         for (std::size_t j = 0; j < N; ++j)
             inFile >> mat2[i][j];
 
+    // Create the matrix to use
     Matrix<T> m1(mat1);
     Matrix<T> m2(mat2);
 
+    // (1) Print the original matrix
+    std::cout << "\n(1/7) Printing Matrix info from file:";
     std::cout << "Matrix 1:\n";
     m1.print_matrix();
     std::cout << "Matrix 2:\n";
     m2.print_matrix();
 
-    // Addition
+    // (2) Addition operation
     Matrix<T> sum = m1 + m2;
-    std::cout << "Sum:\n";
+    std::cout << "\n(2/7) Sum of Matrices:\n";
     sum.print_matrix();
 
-    // Multiplication
+    // (3) Multiplication operation
     Matrix<T> product = m1 * m2;
-    std::cout << "Product:\n";
+    std::cout << "\n(3/7) Product of Matrices:\n";
     product.print_matrix();
 
-    // Diagonal sums
-    std::cout << "Main diagonal sum of Matrix 1: " << m1.sum_diagonal_major() << "\n";
-    std::cout << "Minor diagonal sum of Matrix 1: " << m1.sum_diagonal_minor() << "\n\n";
+    // (4) Diagonal sums operation
+    std::cout << "\n(4/7) Sum of Major Diagonal (Matrix 1): " << m1.sum_diagonal_major() << std::endl;
+    std::cout << "(4/7) Sum of Minor Diagonal (Matrix 1): " << m1.sum_diagonal_minor() << std::endl;
+    std::cout << "\n(4/7) Sum of Major Diagonal (Matrix 2): " << m2.sum_diagonal_major() << std::endl;
+    std::cout << "(4/7) Sum of Minor Diagonal (Matrix 2): " << m2.sum_diagonal_minor() << std::endl;
 
-    // Swap rows (0 and 1)
-    std::cout << "Matrix 1 after swapping rows 0 and 1:\n";
-    m1.swap_rows(0, 1);
-    m1.print_matrix();
+    // (5) Swapping Rows (mat 1)
+    std::size_t r1, r2;
+    std::cout << "\nEnter row 1 of 2 rows indices to swap (Matrix 1): ";
+    std::cin >> r1;
+    std::cout << "\nEnter row 2 of 2 rows indices to swap (Matrix 1): ";
+    std::cin >> r2;
+    if ( (r1 >= m1.get_size()) || (r2 >= m1.get_size()) ) {
+        std::cout << "\ninvalid row index entered, sorry, skipping this operation and onto the next.\n";
+    } else {
+        m1.swap_rows(r1, r2);
+        std::cout << "(5/7) Matrix 1 after swapping rows:\n";
+        m1.print_matrix();
+    }
+    // Swapping Rows (mat 2)
+    std::cout << "\nEnter row 1 of 2 rows indices to swap (Matrix 2): ";
+    std::cin >> r1;
+    std::cout << "\nEnter row 2 of 2 rows indices to swap (Matrix 2): ";
+    std::cin >> r2;
+    if ( (r1 >= m2.get_size()) || (r2 >= m2.get_size()) ) {
+        std::cout << "\ninvalid row index entered, sorry, skipping this operation and onto the next.\n";
+    } else {
+        m2.swap_rows(r1, r2);
+        std::cout << "(5/7) Matrix 2 after swapping rows:\n";
+        m2.print_matrix();
+    }
 
-    // Swap columns (0 and 1)
-    std::cout << "Matrix 1 after swapping cols 0 and 1:\n";
-    m1.swap_cols(0, 1);
-    m1.print_matrix();
+    // (6) Swapping Columns (mat 1)
+    std::size_t c1, c2;
+    std::cout << "\nEnter col 1 of 2 cols indices to swap (Matrix 1): ";
+    std::cin >> c1;
+    std::cout << "\nEnter col 2 of 2 cols indices to swap (Matrix 1): ";
+    std::cin >> c2;
+    if ( (c1 >= m1.get_size()) || (c2 >= m1.get_size()) ) {
+        std::cout << "\ninvalid col index entered, sorry, skipping this operation and onto the next.\n";
+    } else {
+        m1.swap_cols(c1, c2);
+        std::cout << "(6/7) Matrix 1 after swapping cols:\n";
+        m1.print_matrix();
+    }
+    // Swapping Columns (mat 2)
+    std::cout << "\nEnter col 1 of 2 cols indices to swap (Matrix 2): ";
+    std::cin >> c1;
+    std::cout << "\nEnter col 2 of 2 cols indices to swap (Matrix 2): ";
+    std::cin >> c2;
+    if ( (c1 >= m2.get_size()) || (c2 >= m2.get_size()) ) {
+        std::cout << "\ninvalid col index entered, sorry, skipping this operation and onto the next.\n";
+    } else {
+        m2.swap_cols(c1, c2);
+        std::cout << "(6/7) Matrix 2 after swapping cols:\n";
+        m2.print_matrix();
+    }
 
-    // Update element (0,0) to a new value
-    T new_value;
-    std::cout << "Enter a new value to update position (0,0): ";
-    std::cin >> new_value;
-    m1.set_value(0, 0, new_value);
-    std::cout << "Matrix 1 after updating (0,0):\n";
-    m1.print_matrix();
+    // (7) Updating a Single Value (mat 1)
+    std::size_t row, col;
+    int newVal;
+    std::cout << "\nEnter row index for new value update for (Matrix 1): ";
+    std::cin >> row;
+    std::cout << "\nEnter col index for new value update for (Matrix 1): ";
+    std::cin >> col;
+    std::cout << "\nEnter new value for new value update for (Matrix 1): ";
+    std::cin >> newVal;
+    if ( (row >= m1.get_size()) || (col >= m1.get_size()) ) {
+        std::cout << "\ninvalid row or col index entered, sorry, skipping this operation and onto the next.\n";
+    } else {
+        m1.set_value(row, col, newVal);
+        std::cout << "(7/7) Matrix 1 after updating value:\n";
+        m1.print_matrix();
+    }
+    // Updating a Single Value (mat 2)
+    std::cout << "\nEnter row index for new value update for (Matrix 2): ";
+    std::cin >> row;
+    std::cout << "\nEnter col index for new value update for (Matrix 2): ";
+    std::cin >> col;
+    std::cout << "\nEnter new value for new value update for (Matrix 2): ";
+    std::cin >> newVal;
+    if ( (row >= m2.get_size()) || (col >= m2.get_size()) ) {
+        std::cout << "\ninvalid row or col index entered, sorry, skipping this operation and onto the next.\n";
+    } else {
+        m2.set_value(row, col, newVal);
+        std::cout << "(7/7) Matrix 2 after updating value:\n";
+        m2.print_matrix();
+    }
 }
 
 int main() {
