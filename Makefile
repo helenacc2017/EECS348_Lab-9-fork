@@ -1,19 +1,25 @@
+# Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+CXXFLAGS = -std=c++17 -Wall -Wextra
 
+# Output binary
 TARGET = matrix_app
-OBJS = main.o matrix.o
 
+# Source files
+SRCS = main.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+# Default target
 all: $(TARGET)
 
+# Link object files
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-main.o: main.cpp matrix.hpp
-	$(CXX) $(CXXFLAGS) -c main.cpp
+# Compile main.cpp (matrix implementation is header-only template)
+%.o: %.cpp matrix.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-matrix.o: matrix.cpp matrix.hpp
-	$(CXX) $(CXXFLAGS) -c matrix.cpp
-
+# Clean up
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(OBJS) $(TARGET)
